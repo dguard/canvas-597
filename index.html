@@ -1,0 +1,262 @@
+
+<!--width: 1852px;-->
+<!--height: 964px;-->
+<canvas id="canvas-593-a" width="1852px" height="964px" style="position: absolute;top: -1px;left: 0;display: block; margin: 0 auto;/*background: #fff;*/ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); border: 1px solid #bbb;width: 1852px;height: 964px;">
+	No canvas support means no fun.
+</canvas>
+
+<canvas id="canvas-593" width="1024" height="640" style="position: absolute;top: -513px;left: 414px;display: block; margin: 200px auto;/*background: #fff;*/ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); border: 1px solid #bbb">
+	No canvas support means no fun.
+</canvas>
+<canvas id="canvas-594" width="1024" height="640" style="position: absolute;top: -256px;left: -98px;display: block; margin: 200px auto;/*background: #fff;*/ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); border: 1px solid #bbb">
+	No canvas support means no fun.
+</canvas>
+<canvas id="canvas-595" width="1024" height="640" style="position: absolute;top: 0px;left: -608px;display: block; margin: 200px auto;/*background: #fff;*/ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); border: 1px solid #bbb;">
+	No canvas support means no fun.
+</canvas>
+<canvas id="canvas-596" width="1024" height="640" style="position: absolute;top: -257px;left: 926px;display: block; margin: 200px auto;/*background: #fff;*/ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); border: 1px solid #bbb">
+	No canvas support means no fun.
+</canvas>
+<canvas id="canvas-597" width="1024" height="640" style="display: block; margin: 200px auto; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); border: 1px solid #bbb">
+	No canvas support means no fun.
+</canvas>
+
+<canvas id="canvas-598" width="1024" height="640" style="position: absolute;top: 257px;left: -98px;display: block; margin: 200px auto;/*background: #fff;*/ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); border: 1px solid #bbb">
+	No canvas support means no fun.
+</canvas>
+
+
+<canvas id="canvas-599" width="1024" height="640" style="position: absolute;top: 0px;left: 1435px;display: block; margin: 200px auto;/*background: #fff;*/ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); border: 1px solid #bbb">
+	No canvas support means no fun.
+</canvas>
+
+<canvas id="canvas-600" width="1024" height="640" style="position: absolute;top: 257px;left: 924px;display: block; margin: 200px auto;/*background: #fff;*/ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); border: 1px solid #bbb">
+	No canvas support means no fun.
+</canvas>
+
+<canvas id="canvas-601" width="1024" height="640" style="position: absolute;top: 514px;left: 413px;display: block; margin: 200px auto;/*background: #fff;*/ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); border: 1px solid #bbb">
+	No canvas support means no fun.
+</canvas>
+
+<script>
+(function() {
+	function useCanvas(canvasId) {
+		var canvas = document.getElementById(canvasId);
+		var cw = canvas.width;
+		var ch = canvas.height;
+		var interval = null;
+		// isometric:
+		var IsoW = 32; // cell width
+		var IsoH = 16; // cell height
+		var IsoX = cw / 2;
+		var IsoY = (ch - IsoH * 32) / 2;
+		function IsoToScreenX(localX, localY) {
+			return IsoX + (localX - localY) * IsoW;
+		}
+		function IsoToScreenY(localX, localY) {
+			return IsoY + (localX + localY) * IsoH;
+		}
+		function ScreenToIsoX(globalX, globalY) {
+			return ((globalX - IsoX) / IsoW + (globalY - IsoY) / IsoH) / 2;
+		}
+		function ScreenToIsoY(globalX, globalY) {
+			return ((globalY - IsoY) / IsoH - (globalX - IsoX) / IsoW) / 2;
+		}
+		//
+		function bind(id, onupdate) {
+			var canvas = document.getElementById(id);
+			var ctx = canvas.getContext("2d");
+			var mouseX = canvas.width / 2, mouseY = canvas.height / 2;
+			function update() {
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				ctx.save();
+				onupdate(ctx, mouseX, mouseY);
+				ctx.restore();
+			}
+			canvas.onmousemove = function(e) {
+				mouseX = e.offsetX;
+				mouseY = e.offsetY;
+			}
+			canvas.onmouseover = function(e) {
+				if (interval == null) interval = setInterval(update, 50);
+			}
+			canvas.onmouseout = function(e) {
+				if (interval != null) {
+					clearInterval(interval);
+					interval = null;
+				}
+			}
+			onupdate(ctx, mouseX, mouseY);
+		}
+		bind(/*"canvas-597"*/ canvasId, function(ctx, mouseX, mouseY) {
+			ctx.font = "11px sans-serif";
+			//
+			var rx = ScreenToIsoX(mouseX, mouseY);
+			var ry = ScreenToIsoY(mouseX, mouseY);
+			ctx.textAlign = "left";
+			ctx.textBaseline = "top";
+			ctx.fillText("Mouse (absolute): " + mouseX + "," + mouseY, 3, 3);
+			ctx.fillText("Mouse (relative): " + rx.toFixed(2) + "," + ry.toFixed(2), 3, 15);
+			//
+			ctx.strokeStyle = "#ddd";
+			for (var i = 0; i <= 16; i++) {
+				ctx.beginPath();
+				ctx.moveTo(IsoToScreenX(0, i), IsoToScreenY(0, i));
+				ctx.lineTo(IsoToScreenX(16, i), IsoToScreenY(16, i));
+				ctx.moveTo(IsoToScreenX(i, 0), IsoToScreenY(i, 0));
+				ctx.lineTo(IsoToScreenX(i, 16), IsoToScreenY(i, 16));
+				ctx.closePath();
+				ctx.stroke();
+			}
+			//
+			rx = Math.max(0, Math.min(rx, 16));
+			ry = Math.max(0, Math.min(ry, 16));
+			ctx.strokeStyle = "red";
+			ctx.beginPath();
+			ctx.moveTo(IsoToScreenX(0, ry), IsoToScreenY(0, ry));
+			ctx.lineTo(IsoToScreenX(16, ry), IsoToScreenY(16, ry));
+			ctx.stroke();
+			//
+			ctx.strokeStyle = "blue";
+			ctx.beginPath();
+			ctx.moveTo(IsoToScreenX(rx, 0), IsoToScreenY(rx, 0));
+			ctx.lineTo(IsoToScreenX(rx, 16), IsoToScreenY(rx, 16));
+			ctx.stroke();
+			//
+			ctx.textAlign = "center";
+			ctx.textBaseline = "middle";
+			for (var x = 0; x < 16; x++)
+				for (var y = 0; y < 16; y++) {
+					ctx.fillText(x + "," + y, IsoToScreenX(x, y), IsoToScreenY(x, y) + IsoH);
+				}
+			//
+		});
+		var frame = 0.75;
+		// bind("canvas-597-a", function(ctx, mouseX, mouseY) {
+		// 	frame += 0.25;
+		// 	if (frame > 96) frame = 0;
+		// 	//
+		// 	ctx.strokeStyle = "#ddd";
+		// 	for (var i = 0; i <= 16; i++) {
+		// 		ctx.beginPath();
+		// 		ctx.moveTo(IsoToScreenX(0, i), IsoToScreenY(0, i));
+		// 		ctx.lineTo(IsoToScreenX(16, i), IsoToScreenY(16, i));
+		// 		ctx.moveTo(IsoToScreenX(i, 0), IsoToScreenY(i, 0));
+		// 		ctx.lineTo(IsoToScreenX(i, 16), IsoToScreenY(i, 16));
+		// 		ctx.closePath();
+		// 		ctx.stroke();
+		// 	}
+		// 	//
+		// 	var px = ~~ScreenToIsoX(mouseX, mouseY);
+		// 	var py = ~~ScreenToIsoY(mouseX, mouseY);
+		// 	function pdraw() {
+		// 		pdone = true;
+		// 		for (var iter = 0; iter < 2; iter++) {
+		// 			ctx.fillStyle = iter ? "#ddd" : "#555";
+		// 			ctx.beginPath();
+		// 			ctx.arc(mouseX, mouseY - 16 + Math.sin(frame) * 4, 14 - iter * 2, 0, Math.PI * 2, false);
+		// 			ctx.fill();
+		// 		}
+		// 	}
+		// 	var i = 0;
+		// 	for (var y = 0; y < 16; y++)
+		// 	for (var x = 0; x < 16; x++) {
+		// 		var ox = IsoToScreenX(x, y);
+		// 		var ory = IsoToScreenY(x, y);
+		// 		var oy = ory + Math.sin(frame + x + y / 2) * 4;
+		// 		var oz = Math.min(1, frame - i) * 16;
+		// 		if (px == x && py == y && mouseY < ory + 16) pdraw();
+		// 		if (i < frame) for (var iter = 0; iter < 2; iter++) {
+		// 			ctx.fillStyle = iter ? "#fff" : "#555";
+		// 			ctx.beginPath();
+		// 			ctx.arc(ox, oy, Math.max(1, oz - iter * 2), 0, Math.PI * 2, false);
+		// 			ctx.fill();
+		// 		}
+		// 		if (px == x && py == y && mouseY >= ory + 16) pdraw();
+		// 		i += 1;
+		// 	}
+		// });
+	}
+	useCanvas('canvas-593')
+	useCanvas('canvas-594')
+	useCanvas('canvas-595')
+
+	useCanvas('canvas-596')
+	useCanvas('canvas-597')
+
+	useCanvas('canvas-598')
+
+
+	useCanvas('canvas-599')
+	useCanvas('canvas-600')
+
+	useCanvas('canvas-601')
+
+
+	let fromCtx = function(/* keep ctx */) {
+
+		return {
+			useCtx: function(passdCtx) {
+				ctx = passdCtx
+			},
+			moveTo: function(y, x) {
+				return ctx.moveTo(x, y)
+			},
+			lineTo: function(y, x) {
+				return ctx.lineTo(x, y)
+			},
+		}
+	}
+	let throughStacking = function(fromY) {
+		// keep
+		// calc(fromY /* keep */ + 20)
+		return fromY
+	}
+
+	let constructKnot = function(knotSample) {
+
+		let strokeStyleFromOriginal = ctx.strokeStyle
+		ctx.beginPath()
+		ctx.strokeStyle = '#000'
+
+		let [y0, x0] = [knotSample.fromBottomLeft.fromY, knotSample.fromBottomLeft.fromX]
+		let [yFromBottomRight, xFromBottomRight] = [knotSample.fromBottomRight.fromY, knotSample.fromBottomRight.fromX]
+
+		fromCtx(ctx).moveTo(throughStacking(y0), x0)
+		fromCtx(ctx).lineTo(throughStacking(yFromBottomRight), xFromBottomRight)
+
+		let [yFromTopRight, xFromTopRight] = [throughStacking(knotSample.fromTopRight.fromY), knotSample.fromTopRight.fromX]
+
+		fromCtx(ctx).moveTo(throughStacking(yFromBottomRight), xFromBottomRight)
+		fromCtx(ctx).lineTo(throughStacking(yFromTopRight), xFromTopRight)
+
+		let [yFromTopLeft, xFromTopLeft] = [throughStacking(knotSample.fromTopLeft.fromY), knotSample.fromTopLeft.fromX]
+
+		fromCtx(ctx).moveTo(throughStacking(yFromTopRight), xFromTopRight)
+		fromCtx(ctx).lineTo(throughStacking(yFromTopLeft), xFromTopLeft)
+
+		// keep
+		fromCtx(ctx).moveTo(throughStacking(yFromTopLeft), xFromTopLeft)
+		fromCtx(ctx).lineTo(throughStacking(y0), x0)
+
+		ctx.stroke()
+
+		ctx.strokeStyle = strokeStyleFromOriginal
+	}
+
+	let canvas = document.querySelector('#canvas-593-a')
+	let ctx = canvas.getContext('2d')
+	
+	constructKnot({
+		fromTopLeft: { fromY: 201, fromX: 418 },
+		fromTopRight: { fromY: 203, fromX: 1436 },
+		fromBottomRight: { fromY: 778, fromX: 1437 },
+		fromBottomLeft: { fromY: 778, fromX: 415 }
+	})
+
+	document.querySelector('body').onclick = (event) => {
+		console.log({fromY: event.clientY, fromX: event.clientX})
+	}
+
+})();
+</script>
