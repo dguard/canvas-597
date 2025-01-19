@@ -1,7 +1,11 @@
 
-<!--width: 1852px;-->
+<!--width: 1904px;-->
 <!--height: 964px;-->
-<canvas id="canvas-593-a" width="1852px" height="964px" style="position: absolute;top: -1px;left: 0;display: block; margin: 0 auto;/*background: #fff;*/ box-shadow: none;; border: 0px solid #bbb;width: 1852px;height: 964px;">
+<canvas id="canvas-593-aa" width="4630px" height="2410px" style="position: absolute;top: -723px;left: -1389px;display: block; margin: 0 auto;/*background: #fff;*/ box-shadow: none;; border: 0px solid #bbb;width: 4630px;height: 2410px;">
+	No canvas support means no fun.
+</canvas>
+
+<canvas id="canvas-593-a" width="1904px" height="964px" style="position: absolute;top: -1px;left: 0;display: block; margin: 0 auto;/*background: #fff;*/ box-shadow: none;; border: 0px solid #bbb;width: 1904px;height: 964px;">
 	No canvas support means no fun.
 </canvas>
 
@@ -9,12 +13,12 @@
 <canvas id="canvas-593" width="1024" height="640" style="position: absolute;top: -513px;left: 414px;display: block; margin: 200px auto;/*background: #fff;*/ box-shadow: none;; border: 0px solid #bbb">
 	No canvas support means no fun.
 </canvas>
-<canvas id="canvas-594" width="1024" height="640" style="position: absolute;top: -256px;left: -98px;display: block; margin: 200px auto;/*background: #fff;*/ box-shadow: none;; border: 0px solid #bbb">
+<!-- <canvas id="canvas-594" width="1024" height="640" style="position: absolute;top: -256px;left: -98px;display: block; margin: 200px auto;/*background: #fff;*/ box-shadow: none;; border: 0px solid #bbb">
 	No canvas support means no fun.
-</canvas>
-<canvas id="canvas-595" width="1024" height="640" style="position: absolute;top: 0px;left: -608px;display: block; margin: 200px auto;/*background: #fff;*/ box-shadow: none;; border: 0px solid #bbb;">
+</canvas> -->
+<!-- <canvas id="canvas-595" width="1024" height="640" style="position: absolute;top: 0px;left: -608px;display: block; margin: 200px auto;/*background: #fff;*/ box-shadow: none;; border: 0px solid #bbb;">
 	No canvas support means no fun.
-</canvas>
+</canvas> -->
 <canvas id="canvas-596" width="1024" height="640" style="position: absolute;top: -257px;left: 926px;display: block; margin: 200px auto;/*background: #fff;*/ box-shadow: none;; border: 0px solid #bbb">
 	No canvas support means no fun.
 </canvas>
@@ -25,7 +29,7 @@
 	No canvas support means no fun.
 </canvas>
 
-<canvas id="canvas-599" width="1024" height="640" style="position: absolute;top: 0px;left: 1435px;display: block; margin: 200px auto;/*background: #fff;*/ box-shadow: none;; border: 0px solid #bbb">
+<!-- <canvas id="canvas-599" width="1024" height="640" style="position: absolute;top: 0px;left: 1435px;display: block; margin: 200px auto;/*background: #fff;*/ box-shadow: none;; border: 0px solid #bbb">
 	No canvas support means no fun.
 </canvas>
 <canvas id="canvas-600" width="1024" height="640" style="position: absolute;top: 257px;left: 924px;display: block; margin: 200px auto;/*background: #fff;*/ box-shadow: none;; border: 0px solid #bbb">
@@ -33,8 +37,10 @@
 </canvas>
 <canvas id="canvas-601" width="1024" height="640" style="position: absolute;top: 514px;left: 413px;display: block; margin: 200px auto;/*background: #fff;*/ box-shadow: none;; border: 0px solid #bbb">
 	No canvas support means no fun.
-</canvas>
+</canvas> -->
 
+
+<canvas id="grid-map" width="800" height="550" style="position: absolute;top: 0;left: 0;width: 800px;height: 550px;background: #fff; border: 1px solid; display: none"></canvas>
 
 <!-- <canvas id="canvas-593" width="1024" height="640" style="position: absolute;top: -128px;left: 417px;display: block; margin: 200px auto;/*background: #fff;*/ box-shadow: none;; border: 0px solid #bbb">
 	No canvas support means no fun.
@@ -77,7 +83,11 @@
 <script>
 	// import {setupKeyboard} from './input.js';
 // (function() {
-	function useCanvas(canvasId) {
+	function useCanvas(canvasId, canvasOutId, xOutOffset, yOutOffset) {
+
+		xOutOffset = xOutOffset ?? 0
+		yOutOffset = yOutOffset ?? 0
+
 		var canvas = document.getElementById(canvasId);
 		var cw = canvas.width;
 		var ch = canvas.height;
@@ -114,19 +124,19 @@
 				onupdate(ctx, mouseX, mouseY);
 				ctx.restore();
 			}
-			canvas.onmousemove = function(e) {
-				mouseX = e.offsetX;
-				mouseY = e.offsetY;
-			}
-			canvas.onmouseover = function(e) {
-				if (interval == null) interval = setInterval(update, 50);
-			}
-			canvas.onmouseout = function(e) {
-				if (interval != null) {
-					clearInterval(interval);
-					interval = null;
-				}
-			}
+			// canvas.onmousemove = function(e) {
+			// 	mouseX = e.offsetX;
+			// 	mouseY = e.offsetY;
+			// }
+			// canvas.onmouseover = function(e) {
+			// 	if (interval == null) interval = setInterval(update, 50);
+			// }
+			// canvas.onmouseout = function(e) {
+			// 	if (interval != null) {
+			// 		clearInterval(interval);
+			// 		interval = null;
+			// 	}
+			// }
 			onupdate(ctx, mouseX, mouseY);
 		}
 		bind(/*"canvas-597"*/ canvasId, function(ctx, mouseX, mouseY) {
@@ -142,14 +152,30 @@
 			}
 			//
 			ctx.strokeStyle = "#ddd";
+			let canvasOut = document.getElementById(canvasOutId)
+			ctxOut = canvasOut.getContext('2d')
+
+			if(canvasId === 'canvas-598') {
+			}
+			let canvasRect = canvas.getBoundingClientRect() 
+			// Number(canvasOut.style['left'].replace('px', ''))
+			// Number(canvasOut.style['top'].replace('px', ''))
+			
+
 			for (var i = 0; i <= 16; i++) {
-				ctx.beginPath();
-				ctx.moveTo(IsoToScreenX(0, i), IsoToScreenY(0, i));
-				ctx.lineTo(IsoToScreenX(16, i), IsoToScreenY(16, i));
-				ctx.moveTo(IsoToScreenX(i, 0), IsoToScreenY(i, 0));
-				ctx.lineTo(IsoToScreenX(i, 16), IsoToScreenY(i, 16));
-				ctx.closePath();
-				ctx.stroke();
+				// if(canvasId === 'canvas-596') {
+				// 	ctxOut.strokeStyle = '#d00'
+				// } else {
+					ctxOut.strokeStyle = '#ddd'					
+				// }
+				ctxOut.beginPath();
+
+				ctxOut.moveTo(xOutOffset + canvasRect.x + IsoToScreenX(0, i), yOutOffset + canvasRect.y + IsoToScreenY(0, i));
+				ctxOut.lineTo(xOutOffset + canvasRect.x + IsoToScreenX(16, i), yOutOffset + canvasRect.y + IsoToScreenY(16, i));
+				ctxOut.moveTo(xOutOffset + canvasRect.x + IsoToScreenX(i, 0), yOutOffset + canvasRect.y + IsoToScreenY(i, 0));
+				ctxOut.lineTo(xOutOffset + canvasRect.x + IsoToScreenX(i, 16), yOutOffset + canvasRect.y + IsoToScreenY(i, 16));
+				ctxOut.closePath();
+				ctxOut.stroke();
 			}
 			//
 			if(canvasId === 'canvas-597') {
@@ -184,50 +210,6 @@
 			//
 		});
 		var frame = 0.75;
-		// bind("canvas-597-a", function(ctx, mouseX, mouseY) {
-		// 	frame += 0.25;
-		// 	if (frame > 96) frame = 0;
-		// 	//
-		// 	ctx.strokeStyle = "#ddd";
-		// 	for (var i = 0; i <= 16; i++) {
-		// 		ctx.beginPath();
-		// 		ctx.moveTo(IsoToScreenX(0, i), IsoToScreenY(0, i));
-		// 		ctx.lineTo(IsoToScreenX(16, i), IsoToScreenY(16, i));
-		// 		ctx.moveTo(IsoToScreenX(i, 0), IsoToScreenY(i, 0));
-		// 		ctx.lineTo(IsoToScreenX(i, 16), IsoToScreenY(i, 16));
-		// 		ctx.closePath();
-		// 		ctx.stroke();
-		// 	}
-		// 	//
-		// 	var px = ~~ScreenToIsoX(mouseX, mouseY);
-		// 	var py = ~~ScreenToIsoY(mouseX, mouseY);
-		// 	function pdraw() {
-		// 		pdone = true;
-		// 		for (var iter = 0; iter < 2; iter++) {
-		// 			ctx.fillStyle = iter ? "#ddd" : "#555";
-		// 			ctx.beginPath();
-		// 			ctx.arc(mouseX, mouseY - 16 + Math.sin(frame) * 4, 14 - iter * 2, 0, Math.PI * 2, false);
-		// 			ctx.fill();
-		// 		}
-		// 	}
-		// 	var i = 0;
-		// 	for (var y = 0; y < 16; y++)
-		// 	for (var x = 0; x < 16; x++) {
-		// 		var ox = IsoToScreenX(x, y);
-		// 		var ory = IsoToScreenY(x, y);
-		// 		var oy = ory + Math.sin(frame + x + y / 2) * 4;
-		// 		var oz = Math.min(1, frame - i) * 16;
-		// 		if (px == x && py == y && mouseY < ory + 16) pdraw();
-		// 		if (i < frame) for (var iter = 0; iter < 2; iter++) {
-		// 			ctx.fillStyle = iter ? "#fff" : "#555";
-		// 			ctx.beginPath();
-		// 			ctx.arc(ox, oy, Math.max(1, oz - iter * 2), 0, Math.PI * 2, false);
-		// 			ctx.fill();
-		// 		}
-		// 		if (px == x && py == y && mouseY >= ory + 16) pdraw();
-		// 		i += 1;
-		// 	}
-		// });
 		return {
 			canvas: canvas,
 			grid: gridRows,
@@ -235,25 +217,26 @@
 			IsoW
 		}
 	}
-	useCanvas('canvas-593')
+	canvasDetails593 = useCanvas('canvas-593', 'canvas-593-aa', 1389, 723)
+	clientRect593 = canvasDetails593.canvas.getBoundingClientRect()
 
-	useCanvas('canvas-594')
-	useCanvas('canvas-595')
+	// useCanvas('canvas-594', 'canvas-593-aa', 1389, 723)
+	// useCanvas('canvas-595', 'canvas-593-aa', 1389, 723)
 
-	useCanvas('canvas-596')
+	canvasDetails596 = useCanvas('canvas-596', 'canvas-593-aa', 1389, 723)
 
-	let canvasDetails597 = useCanvas('canvas-597')
+	let canvasDetails597 = useCanvas('canvas-597', 'canvas-593-aa', 1389/*-100-10*/, 723)
 	let clientRect = canvasDetails597.canvas.getBoundingClientRect()
 	console.log({top: clientRect.top, left: clientRect.left})
 
 
-	// useCanvas('canvas-598')
+	useCanvas('canvas-598', 'canvas-593-aa', 1389, 723)
 
 
-	useCanvas('canvas-599')
-	useCanvas('canvas-600')
+	// useCanvas('canvas-599', 'canvas-593-aa', 1389, 723)
+	// useCanvas('canvas-600', 'canvas-593-aa', 1389, 723)
 
-	useCanvas('canvas-601')
+	// useCanvas('canvas-601', 'canvas-593-aa', 1389, 723)
 
 
 	let fromCtx = function(/* keep ctx */) {
@@ -391,7 +374,7 @@
 	window['PointerShift'] = PointerShift
 	window['calc'] = calc
 
-	let canvas = document.querySelector('#canvas-593-a')
+	let canvas = document.querySelector('#canvas-593-aa')
 	let ctx = canvas.getContext('2d')
 
 	// constructKnot({
@@ -415,10 +398,20 @@
 		IsoH: canvasDetails597.IsoH
 	})
 
-	let constructLine = (colSample, colAnother) => {
+	let constructLine = (colSample, colAnother, sampleClientRect, sampleClientRectAnother) => {
+		xOutOffset = 1389
+		yOutOffset = 723
+
+		if(typeof sampleClientRect === 'undefined') {
+			sampleClientRect = clientRect
+		}
+		if(typeof sampleClientRectAnother === 'undefined') {
+			sampleClientRectAnother = clientRect
+		}
+		
 		constructKnotSample([
-			{fromY: clientRect.top + colSample['isoY'], fromX: clientRect.left + colSample['isoX']},
-			{fromY: clientRect.top + colAnother['isoY'], fromX: clientRect.left + colAnother['isoX'] }
+			{fromY: yOutOffset + sampleClientRect.top + colSample['isoY'], fromX: xOutOffset + sampleClientRect.left + colSample['isoX']},
+			{fromY: yOutOffset + sampleClientRectAnother.top + colAnother['isoY'], fromX: xOutOffset + sampleClientRectAnother.left + colAnother['isoX'] }
 		])
 	}
 
@@ -426,10 +419,13 @@
 		// pointerIntoPass = { fromY: 329, fromX: 831 }
 		var IsoW = 32*0.5*0.5; // cell width
 		var IsoH = 16*0.5*0.5; // cell height
+		xOutOffset = 1389
+		yOutOffset = 723
+
 		if(canvasDetails597.IsoH === 16 && canvasDetails597.IsoW === 32) {
 			pointerShift = new PointerShift()
 			pointerShift.usePointer({ fromY: 295, fromX: 897 })
-			pointerShift.usePointerAnother({ fromY: clientRect.top + pointerIntoPass['isoY'], fromX: clientRect.left + pointerIntoPass['isoX'] })
+			pointerShift.usePointerAnother({ fromY: yOutOffset + clientRect.top + pointerIntoPass['isoY'], fromX: xOutOffset + clientRect.left + pointerIntoPass['isoX'] })
 
 			constructKnot({
 				fromTopLeft: pointerShift.fromPointerShift({ fromY: 296, fromX: 882 }),
@@ -469,24 +465,609 @@
 	}
 
 
-    /* const */ canvas = document.querySelector('#canvas-593-a');
+    /* const */ canvas = document.querySelector('#canvas-593-aa');
     /* const */ ctx = canvas.getContext('2d');
 
-	constructLine(col, colSecond)
-	constructLine(colRow1And0, colRow1And1)
-	constructLine(colRow1And1, colSecond)
-	constructLine(col, colRow1And0)
+	constructVerticalLine = function(col, colSecond, sampleClientRect, sampleClientRectAnother) {
 
+		if(typeof sampleClientRect === 'undefined') {
+			sampleClientRect = clientRect
+		}
+		if(typeof sampleClientRectAnother === 'undefined') {
+			sampleClientRectAnother = clientRect
+		}
+
+		dx = calc(sampleClientRect.left + col['isoX']) - calc(sampleClientRectAnother.left + colSecond['isoX'])
+		dy = calc(sampleClientRect.top + col['isoY']) - calc(sampleClientRectAnother.top + colSecond['isoY'])
+		distance = Math.sqrt(dx * dx + dy * dy)
+
+		xOutOffset = 1389
+		yOutOffset = 723
+
+		colSample = col
+		colAnother = {
+			'isoX': col['isoX'],
+			'isoY': col['isoY'] - distance * 1.4
+		}
+
+		
+		constructKnotSample([
+			{fromY: yOutOffset + sampleClientRect.top + colSample['isoY'], fromX: xOutOffset + sampleClientRect.left + colSample['isoX']},
+			{fromY: yOutOffset + sampleClientRectAnother.top + colAnother['isoY'], fromX: xOutOffset + sampleClientRectAnother.left + colAnother['isoX'] }
+		])
+	}
+
+	constructTopLine = function(col, colSecond, sampleClientRect, sampleClientRectAnother) {
+		
+		if(typeof sampleClientRect === 'undefined') {
+			sampleClientRect = clientRect
+		}
+		if(typeof clientRectAnother === 'undefined') {
+			sampleClientRectAnother = clientRect
+		}
+
+		dx = calc(sampleClientRect.left + col['isoX']) - calc(sampleClientRectAnother.left + colSecond['isoX'])
+		dy = calc(sampleClientRect.top + col['isoY']) - calc(sampleClientRectAnother.top + colSecond['isoY'])
+		distance = Math.sqrt(dx * dx + dy * dy)
+
+		xOutOffset = 1389
+		yOutOffset = 723
+
+		colSample = {
+			'isoX': col['isoX'],
+			'isoY': col['isoY'] - distance * 1.4
+		}
+		colAnother = {
+			'isoX': colSecond['isoX'],
+			'isoY': colSecond['isoY'] - distance * 1.4
+		}
+
+		
+		constructKnotSample([
+			{fromY: yOutOffset + sampleClientRect.top + colSample['isoY'], fromX: xOutOffset + sampleClientRect.left + colSample['isoX']},
+			{fromY: yOutOffset + sampleClientRectAnother.top + colAnother['isoY'], fromX: xOutOffset + sampleClientRectAnother.left + colAnother['isoX'] }
+		])
+	}
+
+
+	// constructLine(col, colSecond)
+	// constructLine(colRow1And0, colRow1And1)
+	// constructLine(colRow1And1, colSecond)
+	// constructLine(col, colRow1And0)
+
+
+	// constructVerticalLine(col, colSecond)
+	// constructVerticalLine(colRow1And0, colRow1And1)
+
+	// constructVerticalLine(colRow1And1, colSecond)
+	// constructVerticalLine(colSecond, col)
+	
+
+	// constructTopLine(col, colSecond)
+	// constructTopLine(colRow1And0, colRow1And1)
+	// constructTopLine(colRow1And1, colSecond)
+	// constructTopLine(col, colRow1And0)
+
+
+	/* let */ clientRectAnother = canvasDetails596.canvas.getBoundingClientRect()
+
+	/* let */ col = canvasDetails596.grid[15][0]
+	/* let */ colSecond = canvasDetails596.grid[15][1]
+	// // console.log({col, colSecond})
+
+	/* let */ colRow1And0 = canvasDetails597.grid[0][0]
+	/* let */ colRow1And1 = canvasDetails597.grid[0][1]
+
+
+	// constructLine(col, colSecond, clientRectAnother, clientRectAnother)
+	// constructLine(colRow1And0, colRow1And1, clientRect, clientRect)
+	// constructLine(colRow1And1, colSecond, clientRect, clientRectAnother)
+	// constructLine(col, colRow1And0, clientRectAnother, clientRect)
+
+
+	// constructVerticalLine(col, colSecond, clientRectAnother, clientRectAnother)
+	// constructVerticalLine(colRow1And0, colRow1And1, clientRect, clientRect)
+
+	// // constructVerticalLine(colRow1And1, colSecond, clientRect, clientRectAnother)
+	// constructVerticalLine(colSecond, col, clientRectAnother, clientRectAnother)
+
+
+	// constructTopLine(col, colSecond, clientRectAnother, clientRectAnother)
+	// constructTopLine(colRow1And0, colRow1And1, clientRect, clientRect)
+	// constructTopLine(colRow1And1, colSecond, clientRect, clientRectAnother)
+	// constructTopLine(col, colRow1And0, clientRectAnother, clientRect)
+	
+
+	// process.exit()
+
+
+	/* let */ col = canvasDetails596.grid[14][0]
+	/* let */ colSecond = canvasDetails596.grid[14][1]
+	// // console.log({col, colSecond})
+
+	/* let */ colRow1And0 = canvasDetails596.grid[15][0]
+	/* let */ colRow1And1 = canvasDetails596.grid[15][1]
+
+
+
+	constructLine(col, colSecond, clientRectAnother, clientRectAnother)
+	constructLine(colRow1And0, colRow1And1, clientRectAnother, clientRectAnother)
+	constructLine(colRow1And1, colSecond, clientRectAnother, clientRectAnother)
+	constructLine(col, colRow1And0, clientRectAnother, clientRectAnother)
+
+
+	constructVerticalLine(col, colSecond, clientRectAnother, clientRectAnother)
+	constructVerticalLine(colRow1And0, colRow1And1, clientRectAnother, clientRectAnother)
+
+	constructVerticalLine(colRow1And1, colSecond, clientRectAnother, clientRectAnother)
+	constructVerticalLine(colSecond, col, clientRectAnother, clientRectAnother)
+	
+
+	constructTopLine(col, colSecond, clientRectAnother, clientRectAnother)
+	constructTopLine(colRow1And0, colRow1And1, clientRectAnother, clientRectAnother)
+	constructTopLine(colRow1And1, colSecond, clientRectAnother, clientRectAnother)
+	constructTopLine(col, colRow1And0, clientRectAnother, clientRectAnother)
+
+
+
+	/* let */ col = canvasDetails596.grid[13][0]
+	/* let */ colSecond = canvasDetails596.grid[13][1]
+	// // console.log({col, colSecond})
+
+	/* let */ colRow1And0 = canvasDetails596.grid[14][0]
+	/* let */ colRow1And1 = canvasDetails596.grid[14][1]
+
+
+
+	constructLine(col, colSecond, clientRectAnother, clientRectAnother)
+	constructLine(colRow1And0, colRow1And1, clientRectAnother, clientRectAnother)
+	constructLine(colRow1And1, colSecond, clientRectAnother, clientRectAnother)
+	constructLine(col, colRow1And0, clientRectAnother, clientRectAnother)
+
+
+	constructVerticalLine(col, colSecond, clientRectAnother, clientRectAnother)
+	constructVerticalLine(colRow1And0, colRow1And1, clientRectAnother, clientRectAnother)
+
+	constructVerticalLine(colRow1And1, colSecond, clientRectAnother, clientRectAnother)
+	constructVerticalLine(colSecond, col, clientRectAnother, clientRectAnother)
+	
+
+	constructTopLine(col, colSecond, clientRectAnother, clientRectAnother)
+	constructTopLine(colRow1And0, colRow1And1, clientRectAnother, clientRectAnother)
+	constructTopLine(colRow1And1, colSecond, clientRectAnother, clientRectAnother)
+	constructTopLine(col, colRow1And0, clientRectAnother, clientRectAnother)
+
+
+
+
+	/* let */ col = canvasDetails596.grid[11][0]
+	/* let */ colSecond = canvasDetails596.grid[11][1]
+	// // console.log({col, colSecond})
+
+	/* let */ colRow1And0 = canvasDetails596.grid[12][0]
+	/* let */ colRow1And1 = canvasDetails596.grid[12][1]
+
+
+
+	constructLine(col, colSecond, clientRectAnother, clientRectAnother)
+	constructLine(colRow1And0, colRow1And1, clientRectAnother, clientRectAnother)
+	constructLine(colRow1And1, colSecond, clientRectAnother, clientRectAnother)
+	constructLine(col, colRow1And0, clientRectAnother, clientRectAnother)
+
+
+	constructVerticalLine(col, colSecond, clientRectAnother, clientRectAnother)
+	constructVerticalLine(colRow1And0, colRow1And1, clientRectAnother, clientRectAnother)
+
+	constructVerticalLine(colRow1And1, colSecond, clientRectAnother, clientRectAnother)
+	constructVerticalLine(colSecond, col, clientRectAnother, clientRectAnother)
+	
+
+	constructTopLine(col, colSecond, clientRectAnother, clientRectAnother)
+	constructTopLine(colRow1And0, colRow1And1, clientRectAnother, clientRectAnother)
+	constructTopLine(colRow1And1, colSecond, clientRectAnother, clientRectAnother)
+	constructTopLine(col, colRow1And0, clientRectAnother, clientRectAnother)
+
+
+
+
+	/* let */ col = canvasDetails596.grid[10][0]
+	/* let */ colSecond = canvasDetails596.grid[10][1]
+	// // console.log({col, colSecond})
+
+	/* let */ colRow1And0 = canvasDetails596.grid[11][0]
+	/* let */ colRow1And1 = canvasDetails596.grid[11][1]
+
+
+
+	constructLine(col, colSecond, clientRectAnother, clientRectAnother)
+	constructLine(colRow1And0, colRow1And1, clientRectAnother, clientRectAnother)
+	constructLine(colRow1And1, colSecond, clientRectAnother, clientRectAnother)
+	constructLine(col, colRow1And0, clientRectAnother, clientRectAnother)
+
+
+	constructVerticalLine(col, colSecond, clientRectAnother, clientRectAnother)
+	constructVerticalLine(colRow1And0, colRow1And1, clientRectAnother, clientRectAnother)
+
+	constructVerticalLine(colRow1And1, colSecond, clientRectAnother, clientRectAnother)
+	constructVerticalLine(colSecond, col, clientRectAnother, clientRectAnother)
+	
+
+	constructTopLine(col, colSecond, clientRectAnother, clientRectAnother)
+	constructTopLine(colRow1And0, colRow1And1, clientRectAnother, clientRectAnother)
+	constructTopLine(colRow1And1, colSecond, clientRectAnother, clientRectAnother)
+	constructTopLine(col, colRow1And0, clientRectAnother, clientRectAnother)
+
+
+
+	/* let */ col = canvasDetails596.grid[9][0]
+	/* let */ colSecond = canvasDetails596.grid[9][1]
+	// // console.log({col, colSecond})
+
+	/* let */ colRow1And0 = canvasDetails596.grid[10][0]
+	/* let */ colRow1And1 = canvasDetails596.grid[10][1]
+
+
+
+	constructLine(col, colSecond, clientRectAnother, clientRectAnother)
+	constructLine(colRow1And0, colRow1And1, clientRectAnother, clientRectAnother)
+	constructLine(colRow1And1, colSecond, clientRectAnother, clientRectAnother)
+	constructLine(col, colRow1And0, clientRectAnother, clientRectAnother)
+
+
+	constructVerticalLine(col, colSecond, clientRectAnother, clientRectAnother)
+	constructVerticalLine(colRow1And0, colRow1And1, clientRectAnother, clientRectAnother)
+
+	constructVerticalLine(colRow1And1, colSecond, clientRectAnother, clientRectAnother)
+	constructVerticalLine(colSecond, col, clientRectAnother, clientRectAnother)
+	
+
+	constructTopLine(col, colSecond, clientRectAnother, clientRectAnother)
+	constructTopLine(colRow1And0, colRow1And1, clientRectAnother, clientRectAnother)
+	constructTopLine(colRow1And1, colSecond, clientRectAnother, clientRectAnother)
+	constructTopLine(col, colRow1And0, clientRectAnother, clientRectAnother)
 
 
 	// context.drawImage(buffer, 20, 20, buffer.width, buffer.height, 20, 20, buffer.width, buffer.height)
 
 
+	/* let */ col = canvasDetails593.grid[14][14]
+	/* let */ colSecond = canvasDetails593.grid[14][15]
+	// // console.log({col, colSecond})
+
+	/* let */ colRow1And0 = canvasDetails593.grid[15][14]
+	/* let */ colRow1And1 = canvasDetails593.grid[15][15]
+
+
+
+	constructLine(col, colSecond, clientRect593, clientRect593)
+	constructLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+	constructVerticalLine(col, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+
+	constructVerticalLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colSecond, col, clientRect593, clientRect593)
+	
+
+	constructTopLine(col, colSecond, clientRect593, clientRect593)
+	constructTopLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructTopLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructTopLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+	/* let */ col = canvasDetails593.grid[14][13]
+	/* let */ colSecond = canvasDetails593.grid[14][14]
+	// // console.log({col, colSecond})
+
+	/* let */ colRow1And0 = canvasDetails593.grid[15][13]
+	/* let */ colRow1And1 = canvasDetails593.grid[15][14]
+
+
+
+	constructLine(col, colSecond, clientRect593, clientRect593)
+	constructLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+	constructVerticalLine(col, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+
+	constructVerticalLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colSecond, col, clientRect593, clientRect593)
+	
+
+	constructTopLine(col, colSecond, clientRect593, clientRect593)
+	constructTopLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructTopLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructTopLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+
+	/* let */ col = canvasDetails593.grid[13][14]
+	/* let */ colSecond = canvasDetails593.grid[13][15]
+	// // console.log({col, colSecond})
+
+	/* let */ colRow1And0 = canvasDetails593.grid[14][14]
+	/* let */ colRow1And1 = canvasDetails593.grid[14][15]
+
+
+	constructLine(col, colSecond, clientRect593, clientRect593)
+	constructLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+	constructVerticalLine(col, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+
+	constructVerticalLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colSecond, col, clientRect593, clientRect593)
+	
+
+	constructTopLine(col, colSecond, clientRect593, clientRect593)
+	constructTopLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructTopLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructTopLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+	/* let */ col = canvasDetails593.grid[13][13]
+	/* let */ colSecond = canvasDetails593.grid[13][14]
+	// // console.log({col, colSecond})
+
+	/* let */ colRow1And0 = canvasDetails593.grid[14][13]
+	/* let */ colRow1And1 = canvasDetails593.grid[14][14]
+
+
+	constructLine(col, colSecond, clientRect593, clientRect593)
+	constructLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+	constructVerticalLine(col, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+
+	constructVerticalLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colSecond, col, clientRect593, clientRect593)
+	
+
+	constructTopLine(col, colSecond, clientRect593, clientRect593)
+	constructTopLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructTopLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructTopLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+	/* let */ col = canvasDetails593.grid[12][14]
+	/* let */ colSecond = canvasDetails593.grid[12][15]
+	// // console.log({col, colSecond})
+
+	/* let */ colRow1And0 = canvasDetails593.grid[13][14]
+	/* let */ colRow1And1 = canvasDetails593.grid[13][15]
+
+
+	constructLine(col, colSecond, clientRect593, clientRect593)
+	constructLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+	constructVerticalLine(col, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+
+	constructVerticalLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colSecond, col, clientRect593, clientRect593)
+	
+
+	constructTopLine(col, colSecond, clientRect593, clientRect593)
+	constructTopLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructTopLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructTopLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+
+
+/* let */ col = canvasDetails593.grid[12][13]
+	/* let */ colSecond = canvasDetails593.grid[12][14]
+	// // console.log({col, colSecond})
+
+	/* let */ colRow1And0 = canvasDetails593.grid[13][13]
+	/* let */ colRow1And1 = canvasDetails593.grid[13][14]
+
+
+	constructLine(col, colSecond, clientRect593, clientRect593)
+	constructLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+	constructVerticalLine(col, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+
+	constructVerticalLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colSecond, col, clientRect593, clientRect593)
+	
+
+	constructTopLine(col, colSecond, clientRect593, clientRect593)
+	constructTopLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructTopLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructTopLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+
+	/* let */ col = canvasDetails593.grid[11][14]
+	/* let */ colSecond = canvasDetails593.grid[11][15]
+	// // console.log({col, colSecond})
+
+	/* let */ colRow1And0 = canvasDetails593.grid[12][14]
+	/* let */ colRow1And1 = canvasDetails593.grid[12][15]
+
+
+	constructLine(col, colSecond, clientRect593, clientRect593)
+	constructLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+	constructVerticalLine(col, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+
+	constructVerticalLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colSecond, col, clientRect593, clientRect593)
+	
+
+	constructTopLine(col, colSecond, clientRect593, clientRect593)
+	constructTopLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructTopLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructTopLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+	/* let */ col = canvasDetails593.grid[11][13]
+	/* let */ colSecond = canvasDetails593.grid[11][14]
+	// // console.log({col, colSecond})
+
+	/* let */ colRow1And0 = canvasDetails593.grid[12][13]
+	/* let */ colRow1And1 = canvasDetails593.grid[12][14]
+
+
+	constructLine(col, colSecond, clientRect593, clientRect593)
+	constructLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+	constructVerticalLine(col, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+
+	constructVerticalLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colSecond, col, clientRect593, clientRect593)
+	
+
+	constructTopLine(col, colSecond, clientRect593, clientRect593)
+	constructTopLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructTopLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructTopLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+
+	/* let */ col = canvasDetails593.grid[10][14]
+	/* let */ colSecond = canvasDetails593.grid[10][15]
+	// // console.log({col, colSecond})
+
+	/* let */ colRow1And0 = canvasDetails593.grid[11][14]
+	/* let */ colRow1And1 = canvasDetails593.grid[11][15]
+
+
+	constructLine(col, colSecond, clientRect593, clientRect593)
+	constructLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+	constructVerticalLine(col, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+
+	constructVerticalLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colSecond, col, clientRect593, clientRect593)
+	
+
+	constructTopLine(col, colSecond, clientRect593, clientRect593)
+	constructTopLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructTopLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructTopLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+
+	/* let */ col = canvasDetails593.grid[10][13]
+	/* let */ colSecond = canvasDetails593.grid[10][14]
+	// // console.log({col, colSecond})
+
+	/* let */ colRow1And0 = canvasDetails593.grid[11][13]
+	/* let */ colRow1And1 = canvasDetails593.grid[11][14]
+
+
+	constructLine(col, colSecond, clientRect593, clientRect593)
+	constructLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+	constructVerticalLine(col, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+
+	constructVerticalLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colSecond, col, clientRect593, clientRect593)
+	
+
+	constructTopLine(col, colSecond, clientRect593, clientRect593)
+	constructTopLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructTopLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructTopLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+	/* let */ col = canvasDetails593.grid[9][14]
+	/* let */ colSecond = canvasDetails593.grid[9][15]
+	// // console.log({col, colSecond})
+
+	/* let */ colRow1And0 = canvasDetails593.grid[10][14]
+	/* let */ colRow1And1 = canvasDetails593.grid[10][15]
+
+
+	constructLine(col, colSecond, clientRect593, clientRect593)
+	constructLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+	constructVerticalLine(col, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+
+	constructVerticalLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colSecond, col, clientRect593, clientRect593)
+	
+
+	constructTopLine(col, colSecond, clientRect593, clientRect593)
+	constructTopLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructTopLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructTopLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+
+
+	/* let */ col = canvasDetails593.grid[9][13]
+	/* let */ colSecond = canvasDetails593.grid[9][14]
+	// // console.log({col, colSecond})
+
+	/* let */ colRow1And0 = canvasDetails593.grid[10][13]
+	/* let */ colRow1And1 = canvasDetails593.grid[10][14]
+
+
+	constructLine(col, colSecond, clientRect593, clientRect593)
+	constructLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructLine(col, colRow1And0, clientRect593, clientRect593)
+
+
+	constructVerticalLine(col, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+
+	constructVerticalLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructVerticalLine(colSecond, col, clientRect593, clientRect593)
+	
+
+	constructTopLine(col, colSecond, clientRect593, clientRect593)
+	constructTopLine(colRow1And0, colRow1And1, clientRect593, clientRect593)
+	constructTopLine(colRow1And1, colSecond, clientRect593, clientRect593)
+	constructTopLine(col, colRow1And0, clientRect593, clientRect593)
+
 	let colRow1And4 = canvasDetails597.grid[1][4]
 	let colRow3And4 = canvasDetails597.grid[3][4]
 	let colRow5And4 = canvasDetails597.grid[5][4]
 	let colRow7And4 = canvasDetails597.grid[7][4]
-	/* const */ canvas = document.querySelector('#canvas-593-a');
+	/* const */ canvas = document.querySelector('#canvas-593-aa');
     /* const */ ctx = canvas.getContext('2d');
 
 	// 4, 1 ; 4, 3;  4,5  4,7
@@ -527,9 +1108,9 @@
 	constructRect(colRow14And13)
 	constructRect(colRow15And14)
 
-	let canvasDetails598 = useCanvas('canvas-598')
+	let canvasDetails598 = useCanvas('canvas-598', 'canvas-593-aa', 1389, 723)
 	/* let */ clientRect = canvasDetails598.canvas.getBoundingClientRect()
-	/* const */ canvas = document.querySelector('#canvas-593-a');
+	/* const */ canvas = document.querySelector('#canvas-593-aa');
     /* const */ ctx = canvas.getContext('2d');
 
 	// 14,4; 14,6; 14,8; 13,8; 12,8; 11,8
@@ -580,9 +1161,9 @@
 	constructRect(colRow4And1)
 
 
-	let canvasDetails596 = useCanvas('canvas-596')
+	/* let */ canvasDetails596 = useCanvas('canvas-596', 'canvas-593-aa', 1389, 723)
 	/* let */ clientRect = canvasDetails596.canvas.getBoundingClientRect()
-	/* const */ canvas = document.querySelector('#canvas-593-a');
+	/* const */ canvas = document.querySelector('#canvas-593-aa');
     /* const */ ctx = canvas.getContext('2d');
 
 	// 2,0;2,3;2,5;3,7;3,9;3,11;3,12
@@ -633,8 +1214,38 @@
 	// constructRect(colRow0And9)
 	// constructRect(colRow0And7)
 	// constructRect(colRow0And5)
+	window['leftOffset'] = 0
+	window['topOffset'] = 0
+
+	function drawGridMap() {
+		canvasMap = document.getElementById('grid-map')
+		ctxMap = canvasMap.getContext('2d')
+
+		ctxMap.clearRect(0, 0, canvasMap.width, canvasMap.height)
+		ctxMap.strokeStyle = '#000'
+		ctxMap.beginPath();
+
+		ctxMap.moveTo(240 + calc(-leftOffset*40 * calc(800/4630)), 165 + -topOffset*40 * calc(550 / 2410));
+		ctxMap.lineTo(240 + 328.9848816 + calc(-leftOffset*40 * calc(800/4630)), 165 + -topOffset*40 * calc(550 / 2410));
+
+		ctxMap.moveTo(240 + 328.9848816 + calc(-leftOffset*40 * calc(800/4630)), 165 + -topOffset*40 * calc(550 / 2410));
+		ctxMap.lineTo(240 + 328.9848816 + calc(-leftOffset*40 * calc(800/4630)), 165 + 220 + -topOffset*40 * calc(550 / 2410));
+
+		ctxMap.moveTo(240 + 328.9848816 + calc(-leftOffset*40 * calc(800/4630)), 165 + 220 + -topOffset*40 * calc(550 / 2410));
+		ctxMap.lineTo(240 + calc(-leftOffset*40 * calc(800/4630)), 165 + 220 + -topOffset*40 * calc(550 / 2410));
+
+		ctxMap.moveTo(240 + calc(-leftOffset*40 * calc(800/4630)), 165 + 220 + -topOffset*40 * calc(550 / 2410));
+		ctxMap.lineTo(240 + calc(-leftOffset*40 * calc(800/4630)), 165 + -topOffset*40 * calc(550 / 2410));
+
+
+		ctxMap.closePath();
+		ctxMap.stroke()
+
+
+	}
+
 	function moveLeft() {
-		/* let */ canvas = document.getElementById('canvas-593-a')
+		/* let */ canvas = document.getElementById('canvas-593-aa')
 		/* var */ ctx = canvas.getContext('2d');
 
 
@@ -648,13 +1259,20 @@
 		backCtx.drawImage(canvas, 0,0);
 
 
+		if(leftOffset > -17) {
+			// keep
+		} else {
+			return
+		}
+		leftOffset -= 1
+		drawGridMap()
 
 		// restore main canvas
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		ctx.drawImage(backCanvas, -40, 0);
 	}
 	function moveRight() {
-		/* let */ canvas = document.getElementById('canvas-593-a')
+		/* let */ canvas = document.getElementById('canvas-593-aa')
 		/* var */ ctx = canvas.getContext('2d');
 
 
@@ -667,14 +1285,20 @@
 		// save main canvas contents
 		backCtx.drawImage(canvas, 0,0);
 
-
+		if(leftOffset < 18) {
+			// keep
+		} else {
+			return
+		}
+		leftOffset += 1
+		drawGridMap()
 
 		// restore main canvas
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		ctx.drawImage(backCanvas, 40, 0);
 	}
 	function moveUp() {
-		/* let */ canvas = document.getElementById('canvas-593-a')
+		/* let */ canvas = document.getElementById('canvas-593-aa')
 		/* var */ ctx = canvas.getContext('2d');
 
 
@@ -687,14 +1311,19 @@
 		// save main canvas contents
 		backCtx.drawImage(canvas, 0,0);
 
-
-
+		if(topOffset > -6) {
+			// keep
+		} else {
+			return
+		}
+		topOffset -= 1
+		drawGridMap()
 		// restore main canvas
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		ctx.drawImage(backCanvas, 0, -40);
 	}
 	function moveBottom() {
-		/* let */ canvas = document.getElementById('canvas-593-a')
+		/* let */ canvas = document.getElementById('canvas-593-aa')
 		/* var */ ctx = canvas.getContext('2d');
 
 
@@ -707,7 +1336,13 @@
 		// save main canvas contents
 		backCtx.drawImage(canvas, 0,0);
 
-
+		if(topOffset < 10) {
+			// keep
+		} else {
+			return
+		}
+		topOffset += 1
+		drawGridMap()
 
 		// restore main canvas
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -722,6 +1357,8 @@
 
     const input = setupKeyboard(/*mario*/character);
     input.listenTo(window);
+
+    drawGridMap()
 
 
 	document.querySelector('body').onclick = (event) => {
